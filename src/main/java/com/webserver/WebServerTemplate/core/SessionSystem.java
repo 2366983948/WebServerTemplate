@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -20,12 +19,11 @@ public class SessionSystem {
     /**
      * 使用块表机制，优先读取sessionTable中有没有Session，如果没有再去数据库中寻找，找到的记录再块表中
      * 如果数据库中没有，要创建。
-     *
      * 有关Session过期问题：Session的过期时间和Token一致，每次重新生成Token的时候也会生成新的Session
      */
     private static final int MAX_SIZE = 5;  // 表的最大长度
-    private static Map<Integer,Integer> sessionTable = new HashMap<>(MAX_SIZE);
-    private static Queue<Integer>queue = new LinkedList<Integer>();
+    private static final Map<Integer,Integer> sessionTable = new HashMap<>(MAX_SIZE);
+    private static final Queue<Integer>queue = new LinkedList<>();
     private static SessionMapper sessionMapper;
 
     @Autowired

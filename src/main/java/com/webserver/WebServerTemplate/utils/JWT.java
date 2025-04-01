@@ -13,24 +13,25 @@ import java.util.Map;
 public class JWT {
 
     private static final long expire = 7200000;   // 过期时间,2个小时
-    private static String SECRET_KEY = "HeFeiSiQinInformationTechnologyV";    //32位密钥
+    private static final String SECRET_KEY = "HeFeiSiQinInformationTechnologyV";    //32位密钥
     @Value("${JWT.enabled}")
     private boolean jwtEnabled;
 
     // 创建Token
-    public static String GenerateToken(String uid){
+    public static String GenerateToken(int uid){
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expire);
 
         // 携带载荷
-        Integer session = SessionSystem.GenerateSession();
+        int session = SessionSystem.GenerateSession();
+        SessionSystem.setSession(uid,session);
         Map<String, Object>claims = new HashMap<>();
-        claims.put("Session",session);
+        claims.put("session",session);
 
         return Jwts.builder()
                 .setHeaderParam("type","JWT")
-                .setSubject(uid)
-                .setClaims(claims)
+                .setSubject(String.valueOf(uid))
+                .addClaims(claims)  // 注意此处不能使用setClaims，因为，subject也存在claims中，使用set会覆盖
                 .setIssuedAt(now)
                 .setExpiration(expiration)
                 .signWith(SignatureAlgorithm.HS256,SECRET_KEY)

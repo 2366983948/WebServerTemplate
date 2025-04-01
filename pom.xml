@@ -58,7 +58,7 @@
 			<version>3.5.7</version>
 		</dependency>
 
-		<!-- mysq1驱动依赖 -->
+		<!-- mysql驱动依赖 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -76,7 +76,12 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
-
+		<!--解决bug:新版的jdk把xml从标准库中移除了，而JWT使用了该库-->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
