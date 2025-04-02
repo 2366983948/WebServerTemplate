@@ -3,7 +3,7 @@ package com.webserver.WebServerTemplate.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.webserver.WebServerTemplate.core.SessionSystem;
 import com.webserver.WebServerTemplate.entity.User;
-import com.webserver.WebServerTemplate.mapper.DemoMapper;
+import com.webserver.WebServerTemplate.service.DemoService;
 import com.webserver.WebServerTemplate.utils.JWT;
 import com.webserver.WebServerTemplate.utils.WebResponse.BaseResponse;
 import com.webserver.WebServerTemplate.utils.WebResponse.Response;
@@ -20,10 +20,11 @@ import java.util.Map;
 @RestController
 public class DemoController {
     @Autowired
-    DemoMapper demoMapper;
+    DemoService demoService;
     @GetMapping("/get")
     public List<User> GetAllUser(){
-        return demoMapper.GetAllUser();
+
+        return demoService.GetAllUser();
     }
     @GetMapping("/getSession")
     public Integer GetSession(int uid){
