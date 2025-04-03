@@ -2,6 +2,7 @@ package com.webserver.WebServerTemplate;
 
 import com.webserver.WebServerTemplate.core.SettingsEntity;
 import com.webserver.WebServerTemplate.core.SettingsService;
+import com.webserver.WebServerTemplate.utils.DatabaseHelper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -31,8 +32,10 @@ public class WebServerTemplateApplication {
 
 			// 修改配置并写回文件
 			if(!settingsEntity.getDatabase().isInitialize()){
-				System.out.println("数据库初始化");
-				settingsEntity.getDatabase().setInitialize(true);
+				DatabaseHelper helper = new DatabaseHelper();
+				boolean result = helper.ExecuteFile();
+				if(result)
+					settingsEntity.getDatabase().setInitialize(true);
 			}
 			settingsService.updateSettings(settingsEntity);
 		};
